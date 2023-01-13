@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="data.json"></script>
+</head>
+
+<body>
+  <p>
+    <input type="text" id="id" placeholder="Номер продукта">
+    <input type="text" id="name" placeholder="Название продукта">
+    <input type="number" id="cost" placeholder="Стоимость продукта">
+    <input type="text" id="img" placeholder="Ссылка на изображение">
+    <button onclick="editJSON()">Сохранить</button>
+  </p>
+
+  <script>
+    var newData;
+    var res;
+    function editJSON() {
+      var req = new XMLHttpRequest();
+      req.open("POST", "edit.php", true); //I'm pretty sure I messed up somewhere here
+      req.onreadystatechange = function () {
+        if (req.readyState === 4 && xhr.status === 200) {//never happens
+          res = this.responseText;
+        }
+      };
+      //everything else doesn't really matter until I can't properly work with it
+      newData = JSON.parse(res).map(Object.values);
+      console.log(newData[0][0].name);
+      let id = document.querySelector('#id');
+      let name = document.querySelector('#name');
+      let cost = document.querySelector('#cost');
+      let img = document.querySelector('#img');
+      newData[0][0].name = name.value;
+      newData[0][0].cost = cost.value;
+      newData[0][0].img = img.value;
+      var sendData = JSON.stringify(newData);
+      req.send(sendData);
+    }
+  </script>
+</body>
+
+</html>
