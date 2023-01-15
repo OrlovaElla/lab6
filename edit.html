@@ -23,25 +23,25 @@
     var newData;
     var res;
     function editJSON() {
-      var req = new XMLHttpRequest();
-      req.open("POST", "edit.php", true); //I'm pretty sure I messed up somewhere here
-      req.onreadystatechange = function () {
-        if (req.readyState === 4 && xhr.status === 200) {//never happens
-          res = this.responseText;
-        }
-      };
-      //everything else doesn't really matter until I can't properly work with it
-      newData = JSON.parse(res).map(Object.values);
-      console.log(newData[0][0].name);
       let id = document.querySelector('#id');
       let name = document.querySelector('#name');
       let cost = document.querySelector('#cost');
       let img = document.querySelector('#img');
-      newData[0][0].name = name.value;
-      newData[0][0].cost = cost.value;
-      newData[0][0].img = img.value;
-      var sendData = JSON.stringify(newData);
-      req.send(sendData);
+      let xhr = new XMLHttpRequest();
+      let url = "edit.php";
+      xhr.open("POST", url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          res = this.responseText;
+          result.innerHTML = this.responseText;
+        }
+      };
+      newData = JSON.parse(res).map(Object.values);
+      newData[id.value][0].name = name.value;
+      newData[id.value][0].cost = cost.value;
+      newData[id.value][0].img = iimg.value;
+      data = JSON.stringify(newData);
+      xhr.send(data);
     }
   </script>
 </body>
