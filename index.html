@@ -8,6 +8,25 @@
     <title>Document</title>
 </head>
 <body>
+    <script>
+        //const dbParam = JSON.stringify({table:"customers", limit:20} //I have no idea wth this is and why did they use it
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "data.json", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.onload = function() {
+          const myObj = JSON.parse(this.responseText).map(Object.values);
+          let text="";
+          for (var x=0; x<myObj.length; x++) {
+            text += " <div class='new__item2'><div class='new__img2'><img src="+myObj[x][0].img+" class='plant_icon'></div><div class='new__descr2'><div class='new_name2'>"+myObj[x][0].name+"</div><div class='new__price'>"+myObj[x][0].cost+"</div></div></div>";                    
+            //console.log(myObj[x]);               
+            //console.log(myObj[x][2]);
+          }  
+          document.getElementById("demo").innerHTML = text;
+        }        
+        xmlhttp.send();
+        //xmlhttp.open("POST", "json_demo_html_table.php");//don't have this file yet
+        //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    </script>
     <header class="head__container">
         <img src="image_2022-10-06_13-17-29.png" class="main_pic">
         <div class="head__half">
@@ -85,32 +104,9 @@
         <section class="plants container">
             <div class="new__title">            
                 <h1 id="newcome">Featured Plants</h1>
+            </div>                
+            <div class="new__body" id="demo">
             </div>
-                
-                <div class="succulents">
-
-                    <script>
-                        //const dbParam = JSON.stringify({table:"customers", limit:20} //I have no idea wth this is and why did they use it
-                        const xmlhttp = new XMLHttpRequest();
-                        console.log(xmlhttp.readyState, ' ', xmlhttp.status);
-                        console.log(xmlhttp.response);
-                        console.log(xmlhttp.responseText);
-                        xmlhttp.onload = function() {
-                          const myObj = JSON.parse(this.responseText);
-                          let text = "<div class='new__body'>"
-                          for (let x in myObj) {
-                            text += " <div class='new__item2'><div class='new__img2'><img src="+myObj[x].img+" class='plant_icon'></div><div class='new__descr2'><div class='new_name2'>"+myObj[x].name+"</div><div class='new__price'>"+myObj[x].cost+"</div></div>";
-                          }
-                          text += "</div>"    
-                          document.getElementById("demo").innerHTML = text;
-                        }
-                        xmlhttp.open("POST", "json_demo_html_table.php");//don't have this file yet
-                        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                        xmlhttp.send("x=" + dbParam);//nevermind. No idea what's going on
-                    </script>
-
-                </div>
-
         </section>
         <section class="relax">
             <div class="relax-article">
