@@ -6,8 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="add.js"></script> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
 </head>
 
 <body>
@@ -18,26 +17,27 @@
   
   <script>      
     var res;
+    var newData;
+    var sendData;
     function deleteJSON() {
-      let url = "delete.php";//once again have no idea what should be here, tbh
       let id = document.querySelector('#id');
       let xhr = new XMLHttpRequest();
+      let url = "delete.php";
       xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) { //never happens 
-          console.log(this.response);
+        if (xhr.readyState === 4 && xhr.status === 200) {
           res = this.responseText;
+          console.log(this.responseText);
         }
       };
-      console.log(xhr.readyState, ' ', xhr.status);
-      console.log(this.response);
-      console.log(res);
-      var newData = JSON.parse(res).map(Object.values);
-      newData[id][0] = null; //thaaaat's not what I'm supposed to do actually, but oh well. gonna fix it later
-      console.log(newData[id][0].name);
-      var sendData = JSON.stringify(newData);
-      // когда всё готово, отправляем JSON на сервер
-      xhr.send(sendData); 
+      xhr.onload = function() {
+          console.log(res);
+          newData = JSON.parse(res).map(Object.values);
+          newData.splice(id.value-1,1);
+          data = JSON.stringify(newData);
+          xhr.send(data);
+      }
     }
   </script>
 </body>
